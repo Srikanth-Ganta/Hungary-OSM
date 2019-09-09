@@ -52,7 +52,6 @@ def filter_string_match(string1):
 
 def make_column_tag_value_key(string1):
     string = string1
-    print('yo')
     def tag_extractor_helper(x):
         number_of_tags = len(x)
         for i in range(0,number_of_tags):
@@ -68,11 +67,37 @@ def make_column_tag_value_key(string1):
 
 #MAP
 
-def add_markers(m,list_of_lat_and_long_and_ID):
-    for x in list_of_lat_and_long_and_ID:
-        folium.Marker(location=[x[1],x[2]],popup=str(x[0])+','+str(x[1])+','+str(x[2]),size = 0.1).add_to(m)
+# def add_markers(m,list_of_lat_and_long_and_ID):
+#     for x in list_of_lat_and_long_and_ID:
+#         folium.Marker(location=[x[1],x[2]],popup=str(x[0])+','+str(x[1])+','+str(x[2]),size = 0.1).add_to(m)
 def get_lat_long(df):
     list1 = []
     for x in df:
         list1.append([x.id,x.latitude , x.longitude]) 
-    return list1        
+    return list1   
+
+def add_markers(m,list_of_lat_and_long_and_ID):
+    i = 0
+    for x in list_of_lat_and_long_and_ID:
+        if i < 100:
+            folium.Marker(location=[x[1],x[2]],popup='row id: ' +str(x[0])+', coods: ('+str(x[1])+','+str(x[2])+' )',size = 0.1).add_to(m)
+            i+=1
+        else:
+            break
+#function for adding points on the map
+def add_markers2(m,list_of_lat_and_long_and_ID):
+    i = 0
+    for x in list_of_lat_and_long_and_ID:
+        if i < 100:
+            folium.Marker(location=[x[1],x[2]],popup=str(x[3]),size = 0.1).add_to(m)
+            i+=1
+        else:
+            break
+#function for extracting a specific type of amenity
+def filter_amenitites(amenities_df,string):
+    list1 =[]
+    for x in amenities_df:
+        if x.extract_tag == string:
+            list1.append(x)
+    return list1
+        
